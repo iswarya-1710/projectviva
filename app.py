@@ -37,22 +37,16 @@ Marital_Status = st.sidebar.selectbox(
     help="Marital status can influence financial stability"
 )
 
-Education = st.sidebar.selectbox(
-    "Education",
-    ["Graduate", "Not Graduate"],
-    help="Higher education may correlate with income stability"
-)
-
-Property_Area = st.sidebar.selectbox(
-    "Property Area",
-    ["Urban", "Semiurban", "Rural"],
-    help="Location of property associated with loan risk"
-)
-
 Number_of_Dependents = st.sidebar.slider(
     "Number of Dependents",
     0, 4, 1,
     help="More dependents may increase financial burden"
+)
+
+Education = st.sidebar.selectbox(
+    "Education",
+    ["Graduate", "Not Graduate"],
+    help="Higher education may correlate with income stability"
 )
 
 Annual_Income = st.sidebar.slider(
@@ -81,16 +75,21 @@ Term = st.sidebar.selectbox(
     help="Loan repayment duration (months)"
 )
 
+Property_Area = st.sidebar.selectbox(
+    "Property Area",
+    ["Urban", "Semiurban", "Rural"],
+    help="Location of property associated with loan risk"
+)
 input_df = pd.DataFrame({
     "Gender": [Gender],
     "Marital_Status": [Marital_Status],
-    "Education": [Education],
-    "Property_Area": [Property_Area],
     "Number_of_Dependents": [Number_of_Dependents],
+    "Education": [Education],
     "Annual_Income": [Annual_Income],
     "Credit_Score": [Credit_Score],
     "Loan_Amount": [Loan_Amount],
     "Term": [Term]
+    "Property_Area": [Property_Area],
 })
 
 num_cols = input_df.select_dtypes(exclude="object").columns
