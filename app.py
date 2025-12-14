@@ -93,7 +93,9 @@ input_df = pd.DataFrame({
     "Term": [Term],
     "Property_Area": [Property_Area]
 })
-
+st.write("Imputer expects:", len(num_cols))
+st.write("Input numeric cols:", input_df[num_cols].shape[1])
+st.write("Numeric columns:", num_cols)
 input_df[num_cols] = num_imputer.transform(input_df[num_cols])
 
 input_df = pd.get_dummies(input_df, columns=cat_cols, drop_first=True)
