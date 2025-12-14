@@ -92,7 +92,7 @@ input_df = pd.DataFrame({
     "Property_Area": [Property_Area]
 })
 
-num_cols = input_df.select_dtypes(exclude="object").columns
+num_cols = input_df.select_dtypes(include=['int','float']).columns
 cat_cols = input_df.select_dtypes(include="object").columns
 
 input_df[num_cols] = num_imputer.transform(input_df[num_cols])
