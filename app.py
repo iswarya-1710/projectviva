@@ -17,11 +17,13 @@ st.markdown(
 )
 @st.cache_resource
 def load_artifacts():
-    model = joblib.load("best_model.joblib")
-    num_imp = joblib.load("num_imputer.joblib")
+    best_model = joblib.load("best_model.joblib")
+    num_imputer = joblib.load("num_imputer.joblib")
     feature_cols = joblib.load("feature_columns.joblib")
-    return model, num_imp, feature_cols
-model, num_imputer, feature_columns = load_artifacts()
+    num_cols = joblib.load("num_cols.joblib")
+    cat_cols = joblib.load("cat_cols.joblib")
+    return best_model, num_imp, feature_cols,num_cols,cat_cols
+best_model, num_imputer, feature_columns,num_cols,cat_cols = load_artifacts()
 
 st.sidebar.header("📌 Applicant Details")
 
