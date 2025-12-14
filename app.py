@@ -162,7 +162,5 @@ with col2:
 
 st.markdown("---")
 st.markdown(
-    "Educational Note:  
-    This tool demonstrates how machine learning predictions can be interpreted using SHAP values,  
-    enabling transparency and trust in automated loan decision systems."
+    "Educational Note: This tool demonstrates how machine learning predictions can be interpreted using SHAP values,enabling transparency and trust in automated loan decision systems."
 )
