@@ -88,8 +88,8 @@ input_df = pd.DataFrame({
     "Annual_Income": [Annual_Income],
     "Credit_Score": [Credit_Score],
     "Loan_Amount": [Loan_Amount],
-    "Term": [Term]
-    "Property_Area": [Property_Area],
+    "Term": [Term],
+    "Property_Area": [Property_Area]
 })
 
 num_cols = input_df.select_dtypes(exclude="object").columns
