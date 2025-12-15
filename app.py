@@ -123,52 +123,34 @@ st.subheader("🔍 Model Explainability (SHAP)")
 
 @st.cache_resource
 def shap_explainer():
-    return shap.TreeExplainer(best_model)
-
+    # Use training data as background
+    return shap.Explainer(best_model, X_train)
 explainer = shap_explainer()
-shap_values = explainer.shap_values(input_df)
-
 col1, col2 = st.columns(2)
-
 with col1:
     st.markdown("### 🔹 Individual Prediction Explanation")
-    # Create figure
-fig, ax = plt.subplots()
-if isinstance(shap_values, list):
-    shap_vals = shap_values[1][0] if len(shap_values) > 1 else shap_values[0][0]
-    base_val = explainer.expected_value[1] if len(shap_values) > 1 else explainer.expected_value[0]
-else:
-    shap_vals = shap_values[0].values
-    base_val = shap_values[0].base_values
-shap.waterfall_plot(
-    shap.Explanation(
-        values=shap_vals,
-        base_values=base_val,
-        data=input_df.iloc[0],
-        feature_names=input_df.columns
-    ),
-    show=False
-)
+    shap_values_ind = explainer(input_df)
+    fig, ax = plt.subplots()
+    if shap_values_ind.ndim == 3:
+        shap.plots.waterfall(shap_values_ind[0, 1], show=False)
+    else:
+        shap.plots.waterfall(shap_values_ind[0], show=False)
 
-st.pyplot(fig)
-
+    st.pyplot(fig)
 with col2:
     st.markdown("### 🔹 Global Feature Importance")
-    X_sample = pd.DataFrame(
-        np.repeat(input_df.values, 50, axis=0),
-        columns=input_df.columns
-    )
-    shap_vals = explainer.shap_values(X_sample)
+    X_sample = X_train.sample(min(200, len(X_train)), random_state=42)
+    shap_values_global = explainer(X_sample)
     fig2, ax2 = plt.subplots()
-    shap.summary_plot(
-        shap_vals[1],
-        X_sample,
-        plot_type="bar",
-        show=False
-    )
-    st.pyplot(fig2)
+    if shap_values_global.ndim == 3:
+        shap.plots.bar(shap_values_global[:, 1], show=False)
+    else:
+        shap.plots.bar(shap_values_global, show=False)
 
+    st.pyplot(fig2)
 st.markdown("---")
 st.markdown(
-    "Educational Note: This tool demonstrates how machine learning predictions can be interpreted using SHAP values,enabling transparency and trust in automated loan decision systems."
+    "📘 **Educational Note:** This tool demonstrates how machine learning predictions "
+    "can be interpreted using SHAP values, enabling transparency and trust in "
+    "automated loan decision systems."
 )
