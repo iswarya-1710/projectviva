@@ -137,18 +137,18 @@ with col1:
         class_idx = 1
     else: 
         class_idx = 0
-    shap.waterfall_plot(
-    shap.Explanation(
-        values=shap_values[class_idx][0]
-        if isinstance(shap_values, list) else shap_values[0],
-        base_values=explainer.expected_value[class_idx]
-        if isinstance(explainer.expected_value, (list, np.ndarray)) else explainer.expected_value,
-        data=input_df.iloc[0],
-        feature_names=input_df.columns
-    ),
-    show=False
-)
-st.pyplot(fig)
+        shap.waterfall_plot(
+            shap.Explanation(
+                values=shap_values[class_idx][0]
+                if isinstance(shap_values, list) else shap_values[0],
+                base_values=explainer.expected_value[class_idx]
+                if isinstance(explainer.expected_value, (list, np.ndarray)) else explainer.expected_value,
+                data=input_df.iloc[0],
+                feature_names=input_df.columns
+            ),
+            show=False
+        )
+        st.pyplot(fig)
 
 with col2:
     st.markdown("### 🔹 Global Feature Importance")
