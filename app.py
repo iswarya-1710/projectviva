@@ -22,8 +22,9 @@ def load_artifacts():
     feature_cols = joblib.load("feature_columns.joblib")
     num_cols = joblib.load("num_cols.joblib")
     cat_cols = joblib.load("cat_cols.joblib")
-    return best_model, num_imputer, feature_cols, num_cols, cat_cols
-best_model, num_imputer, feature_cols, num_cols, cat_cols = load_artifacts()
+    X_train = joblib.load("X_train.joblib")
+return best_model, num_imputer, feature_cols, num_cols, cat_cols,X_train
+best_model, num_imputer, feature_cols, num_cols, cat_cols,X_train = load_artifacts()
 
 st.sidebar.header("📌 Applicant Details")
 
