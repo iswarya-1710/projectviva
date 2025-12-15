@@ -101,7 +101,7 @@ input_df[num_cols] = num_imputer.transform(input_df[num_cols])
 
 input_df = pd.get_dummies(input_df, columns=cat_cols, drop_first=True)
 
-input_df = input_df.reindex(columns=feature_columns, fill_value=0)
+input_df = input_df.reindex(columns=feature_cols, fill_value=0)
 
 proba = best_model.predict_proba(input_df)[0][1]
 
