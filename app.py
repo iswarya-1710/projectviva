@@ -132,23 +132,25 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("### 🔹 Individual Prediction Explanation")
-    fig, ax = plt.subplots()
-    if isinstance(shap_values, list) and len(shap_values) > 1:
-        class_idx = 1
-    else: 
-        class_idx = 0
-        shap.waterfall_plot(
-            shap.Explanation(
-                values=shap_values[class_idx][0]
-                if isinstance(shap_values, list) else shap_values[0],
-                base_values=explainer.expected_value[class_idx]
-                if isinstance(explainer.expected_value, (list, np.ndarray)) else explainer.expected_value,
-                data=input_df.iloc[0],
-                feature_names=input_df.columns
-            ),
-            show=False
-        )
-        st.pyplot(fig)
+    # Create figure
+fig, ax = plt.subplots()
+if isinstance(shap_values, list):
+    shap_vals = shap_values[1][0] if len(shap_values) > 1 else shap_values[0][0]
+    base_val = explainer.expected_value[1] if len(shap_values) > 1 else explainer.expected_value[0]
+else:
+    shap_vals = shap_values[0].values
+    base_val = shap_values[0].base_values
+shap.waterfall_plot(
+    shap.Explanation(
+        values=shap_vals,
+        base_values=base_val,
+        data=input_df.iloc[0],
+        feature_names=input_df.columns
+    ),
+    show=False
+)
+
+st.pyplot(fig)
 
 with col2:
     st.markdown("### 🔹 Global Feature Importance")
