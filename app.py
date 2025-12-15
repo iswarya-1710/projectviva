@@ -134,9 +134,9 @@ with col1:
     st.markdown("### 🔹 Individual Prediction Explanation")
     fig, ax = plt.subplots()
     if isinstance(shap_values, list) and len(shap_values) > 1:
-    class_idx = 1
+        class_idx = 1
     else: 
-    class_idx = 0
+        class_idx = 0
     shap.waterfall_plot(
     shap.Explanation(
         values=shap_values[class_idx][0]
