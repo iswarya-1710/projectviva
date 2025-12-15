@@ -2,6 +2,6 @@ streamlit
 numpy
 pandas 
 joblib
-scikit-learn
+scikit-learn==1.6.1
 shap
 matplotlib
