@@ -22,9 +22,9 @@ def load_artifacts():
     feature_cols = joblib.load("feature_columns.joblib")
     num_cols = joblib.load("num_cols.joblib")
     cat_cols = joblib.load("cat_cols.joblib")
-    X_train = joblib.load("X_train.joblib")
-    return best_model, num_imputer, feature_cols, num_cols, cat_cols,X_train
-best_model, num_imputer, feature_cols, num_cols, cat_cols,X_train = load_artifacts()
+    X_train_final = joblib.load("X_train_final.joblib")
+    return best_model, num_imputer, feature_cols, num_cols, cat_cols,X_train_final
+best_model, num_imputer, feature_cols, num_cols, cat_cols,X_train_final = load_artifacts()
 
 st.sidebar.header("📌 Applicant Details")
 
@@ -124,8 +124,7 @@ st.subheader("🔍 Model Explainability (SHAP)")
 
 @st.cache_resource
 def shap_explainer():
-    # Use training data as background
-    return shap.Explainer(best_model, X_train)
+    return shap.Explainer(best_model, X_train_final)
 explainer = shap_explainer()
 col1, col2 = st.columns(2)
 with col1:
@@ -140,7 +139,7 @@ with col1:
     st.pyplot(fig)
 with col2:
     st.markdown("### 🔹 Global Feature Importance")
-    X_sample = X_train.sample(min(200, len(X_train)), random_state=42)
+    X_sample = X_train_final.sample(min(200, len(X_train_final)), random_state=42)
     shap_values_global = explainer(X_sample)
     fig2, ax2 = plt.subplots()
     if shap_values_global.ndim == 3:
