@@ -124,26 +124,26 @@ st.subheader("🔍 Model Explainability (SHAP)")
 
 @st.cache_resource
 def shap_explainer():
-    return shap.Explainer(best_model, X_train_final)
+    return shap.Explainer(best_model,X_train_final,algorithm="tree")
 explainer = shap_explainer()
 col1, col2 = st.columns(2)
 with col1:
     st.markdown("### 🔹 Individual Prediction Explanation")
     shap_values_ind = explainer(input_df)
     fig, ax = plt.subplots()
-    if shap_values_ind.ndim == 3:
-        shap.plots.waterfall(shap_values_ind[0, 1], show=False)
+    if shap_values_ind.values.ndim == 3:
+        shap.plots.waterfall(shap_values_ind[0, :, 1], show=False)
     else:
         shap.plots.waterfall(shap_values_ind[0], show=False)
-
     st.pyplot(fig)
+
 with col2:
     st.markdown("### 🔹 Global Feature Importance")
-    X_sample = X_train_final.sample(min(200, len(X_train_final)), random_state=42)
+    X_sample = X_train_final.sample(min(200, len(X_train_final)),random_state=42)
     shap_values_global = explainer(X_sample)
     fig2, ax2 = plt.subplots()
-    if shap_values_global.ndim == 3:
-        shap.plots.bar(shap_values_global[:, 1], show=False)
+    if shap_values_global.values.ndim == 3:
+        shap.plots.bar(shap_values_global[:, :, 1], show=False)
     else:
         shap.plots.bar(shap_values_global, show=False)
 
